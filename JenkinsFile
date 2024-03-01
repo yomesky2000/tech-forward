@@ -1,0 +1,23 @@
+node{
+   stage('SCM Checkout'){
+     git 'https://github.com/yomesky2000/hello-world-war'
+   }
+
+   stage('Build'){
+      def mvnHome = tool name: 'maven', type: 'maven'
+      sh "${mvnHome}/bin/mvn package"
+      echo "Tech Forward Build Successful"
+   }
+   
+   stage('Test'){
+      // Get Maven Home Path
+      def mvnHome = tool name: 'maven', type: 'maven'
+      sh "${mvnHome}/bin/mvn package"
+      echo "Tech Forward Test Successful"
+   }
+      stage('Deploy war file'){
+      def mvnHome = tool name: 'maven', type: 'maven'
+      sh "scp /var/lib/jenkins/workspace/tech-forward-mobile-app/target/tech-forward-1.0.0.war root@tomcat-srv-9.pace.comm:/root/tomcat9/webapps"
+   
+   }
+}
